@@ -1,0 +1,83 @@
+Build a fully responsive, professional, and modern multi-page website for **Aeonark Labs**, an Indian digital solutions company founded by Shwetank Pandey and Shivank Pandey.
+
+### Key Requirements:
+
+1. **Brand Voice & Style:**
+   - Bold, clean, Gen-Z startup aesthetic
+   - Font: modern, rounded sans-serif (e.g., Poppins, Inter, or similar)
+   - Colors: neon-accented on dark/light theme — feel free to use bright accent colors (turquoise, electric blue, neon green) for buttons and highlights
+   - Use sleek animations on load and hover
+
+2. **Pages (with Nav Menu):**
+   - Home
+   - Services
+   - Pricing/Plans
+   - About Us
+   - Contact
+
+3. **Home Page (Landing Page Design):**
+   - Hero section with bold title:
+     > “We Build the Digital Future – Websites, Apps & Custom AI Agents.”
+   - Subheadline:
+     > “Aeonark Labs helps startups and businesses launch, scale, and dominate online — faster, smarter, leaner.”
+   - Call-to-Action button: **“Let’s Build Something”** (links to Contact page)
+   - Client trust badges (even dummy ones)
+   - Animated scroll section with 3 key offerings:
+     ➤ Full-stack Websites  
+     ➤ Mobile-Friendly Apps  
+     ➤ AI Agents and Automation
+
+4. **Services Page:**
+   - Sectioned cards or layout with icons for:
+     ➤ Web Development  
+     ➤ App Development  
+     ➤ UI/UX Design  
+     ➤ AI Agent Creation (Chatbots, Workflow Automation)  
+     ➤ Consultation Services  
+   - Each with a short 2-line description and a "Get Quote" button.
+
+5. **Pricing Page:**
+   - 3 pricing tiers in cards layout:
+     ### Starter Pack — ₹9,999  
+     - Static Website (5 pages)  
+     - Mobile Responsive  
+     - SEO-Ready
+
+     ### Growth Pack — ₹29,999  
+     - Web App or Website  
+     - Custom Dashboard  
+     - Basic AI Agent  
+     - Free Maintenance (1 Month)
+
+     ### Scale Pack — ₹59,999+  
+     - Full-stack App  
+     - Advanced AI Integration  
+     - Scalable Backend  
+     - 24/7 Support  
+     - Dedicated Dev Support (DM for Quote)
+
+6. **About Page:**
+   - Founders' brief bios (Shwetank Pandey & Shivank Pandey)
+   - Company vision:  
+     > “Founded with a mission to democratize access to cutting-edge tech, Aeonark Labs builds affordable, powerful digital systems for startups and visionaries.”
+   - Timeline or milestone section (optional)
+
+7. **Contact Page:**
+   - Embedded Google Form or form with name/email/message
+   - Social links: LinkedIn, GitHub, WhatsApp, Calendly (dummy or real links)
+   - Call-to-action:  
+     > “Got a project in mind? Let’s talk.”
+
+8. **Additional Requirements:**
+   - Mobile-first responsive design
+   - Sticky navbar
+   - Smooth scroll
+   - SEO tags in HTML head
+   - Include dummy project thumbnails or screenshots for services
+   - Use placeholder images or icons from open source (e.g., unDraw, Feather Icons)
+
+9. **Deployable on Replit with free `.replit.app` subdomain.**
+
+10. **No backend needed now. All static HTML/CSS/JS files.** Use simple JavaScript for interactivity.
+
+The website must look **professional but startup-savvy**, visually clean but Gen-Z attractive, with emphasis on speed, credibility, and conversion. Use HTML, CSS (Flexbox/Grid), and JavaScript only.

@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 240 10% 3.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+
+    --primary: 180 100% 50%;
+    --primary-foreground: 240 5% 10%;
+
+    --secondary: 136 100% 54%;
+    --secondary-foreground: 240 5% 10%;
+
+    --accent: 270 100% 70%;
+    --accent-foreground: 240 5% 10%;
+
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 180 100% 50%;
+
+    --radius: 0.5rem;
+
+    /* Custom colors */
+    --neon-blue: 187 100% 50%;
+    --neon-green: 136 100% 54%;
+    --neon-purple: 270 100% 70%;
+    --dark: 0 0% 7%;
+    --dark-surface: 0 0% 12%;
+    --light: 0 0% 98%;
+    --light-surface: 0 0% 95%;
+  }
+
+  .dark {
+    --background: 0 0% 3%;
+    --foreground: 0 0% 98%;
+
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 180 100% 50%;
+    --primary-foreground: 240 5% 10%;
+
+    --secondary: 136 100% 54%;
+    --secondary-foreground: 240 5% 10%;
+
+    --accent: 270 100% 70%;
+    --accent-foreground: 240 5% 10%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 240 5% 64.9%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 180 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground scroll-smooth;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  /* Custom styling */
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--neon-blue))] to-[hsl(var(--neon-green))];
+  }
+
+  .text-gradient-purple {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--neon-blue))] to-[hsl(var(--neon-purple))];
+  }
+
+  .btn-gradient {
+    @apply bg-gradient-to-r from-[hsl(var(--neon-blue))] to-[hsl(var(--neon-green))] text-[hsl(var(--dark))] font-medium py-3 px-8 rounded-full inline-block transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-lg hover:shadow-[hsl(var(--neon-blue))]/20;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-lg hover:shadow-[hsl(var(--neon-blue))]/20;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-[hsl(var(--dark))];
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gradient-to-b from-[hsl(var(--neon-blue))] to-[hsl(var(--neon-green))] rounded-sm;
+  }
+}
