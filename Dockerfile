@@ -1,4 +1,4 @@
-# Final working Docker build for Render.com
+# Final working Docker build for Render.com - NO VITE IMPORTS
 FROM node:20-alpine AS builder
 
 WORKDIR /app
@@ -24,22 +24,16 @@ COPY tailwind.config.ts ./
 COPY postcss.config.js ./
 COPY drizzle.config.ts ./
 
-# Build frontend
+# Build frontend to dist/public
 RUN npx vite build
 
-# Build backend with NO Vite imports at all
-RUN npx esbuild server/index.ts \
+# Build backend using production entry point with NO Vite imports
+RUN npx esbuild server/index-production.ts \
   --platform=node \
   --packages=external \
   --bundle \
   --format=esm \
-  --outdir=dist \
-  --external:vite \
-  --external:@vitejs/plugin-react \
-  --external:@replit/vite-plugin-cartographer \
-  --external:@replit/vite-plugin-runtime-error-modal \
-  --external:@replit/vite-plugin-shadcn-theme-json \
-  --external:nanoid
+  --outdir=dist
 
 # Production stage
 FROM node:20-alpine AS production
@@ -75,5 +69,5 @@ EXPOSE 5000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:5000/api/health || exit 1
 
-# Start the application
-CMD ["node", "dist/index.js"]
+# Start the application using the production build
+CMD ["node", "dist/index-production.js"]
