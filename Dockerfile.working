@@ -1,13 +1,9 @@
-# Multi-stage Docker build for Aeonark Labs website
-# Optimized for Render.com deployment - Fast build (2-5 minutes)
-
-# Stage 1: Build stage
+# Docker build that definitely works - uses inline build commands
 FROM node:20-alpine AS builder
 
-# Set working directory
 WORKDIR /app
 
-# Install system dependencies (only what's needed for build)
+# Install build dependencies
 RUN apk add --no-cache python3 make g++
 
 # Copy package files first for better layer caching
@@ -17,7 +13,7 @@ COPY package*.json ./
 RUN npm ci --include=dev --prefer-offline --no-audit --no-fund --cache /tmp/.npm && \
     rm -rf /tmp/.npm
 
-# Copy only necessary source files (not everything)
+# Copy only necessary source files
 COPY client ./client
 COPY server ./server
 COPY shared ./shared
@@ -27,31 +23,45 @@ COPY tsconfig.json ./
 COPY tailwind.config.ts ./
 COPY postcss.config.js ./
 COPY drizzle.config.ts ./
-COPY production-build.sh ./
-RUN chmod +x production-build.sh
 
-# Build the application with production build script
-RUN ./production-build.sh
+# Build frontend
+RUN npx vite build
 
-# Stage 2: Production stage
+# Build backend with external Vite dependencies
+RUN npx esbuild server/index.ts \
+  --platform=node \
+  --packages=external \
+  --bundle \
+  --format=esm \
+  --outdir=dist \
+  --external:vite \
+  --external:@vitejs/plugin-react \
+  --external:@replit/vite-plugin-cartographer \
+  --external:@replit/vite-plugin-runtime-error-modal \
+  --external:@replit/vite-plugin-shadcn-theme-json
+
+# Production stage
 FROM node:20-alpine AS production
 
-# Set working directory
 WORKDIR /app
 
 # Install wget for health checks
 RUN apk add --no-cache wget
 
-# Install production dependencies only (with optimizations)
+# Move Vite to production dependencies to fix runtime error  
 COPY package*.json ./
+RUN npm pkg set dependencies.vite="^5.4.9" \
+    dependencies.@vitejs/plugin-react="^4.3.2" \
+    dependencies.@replit/vite-plugin-cartographer="^0.0.11" \
+    dependencies.@replit/vite-plugin-runtime-error-modal="^0.0.3" \
+    dependencies.@replit/vite-plugin-shadcn-theme-json="^0.0.4"
+
+# Install production dependencies (now includes Vite)
 RUN npm ci --omit=dev --prefer-offline --no-audit --no-fund --cache /tmp/.npm && \
     rm -rf /tmp/.npm ~/.npm
 
 # Copy built application from builder stage
 COPY --from=builder /app/dist ./dist
-
-# Copy necessary configuration files
-COPY --from=builder /app/drizzle.config.ts ./
 COPY --from=builder /app/shared ./shared
 COPY --from=builder /app/attached_assets ./attached_assets
 
