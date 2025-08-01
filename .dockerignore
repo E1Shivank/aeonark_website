@@ -16,6 +16,11 @@ dist
 build
 .next
 
+# Large directories that slow down build
+node_modules/.cache
+.npm
+.pnpm-store
+
 # Development files
 .git
 .gitignore

@@ -1,5 +1,5 @@
 # Multi-stage Docker build for Aeonark Labs website
-# Optimized for Render.com deployment
+# Optimized for Render.com deployment - Fast build (2-5 minutes)
 
 # Stage 1: Build stage
 FROM node:20-alpine AS builder
@@ -7,21 +7,28 @@ FROM node:20-alpine AS builder
 # Set working directory
 WORKDIR /app
 
-# Install system dependencies
-RUN apk add --no-cache git python3 make g++ wget
+# Install system dependencies (only what's needed for build)
+RUN apk add --no-cache python3 make g++
 
-# Copy package files
+# Copy package files first for better layer caching
 COPY package*.json ./
 
-# Install all dependencies (including devDependencies for build)
-RUN npm ci --include=dev
+# Install dependencies with optimizations
+RUN npm ci --include=dev --prefer-offline --no-audit --no-fund --cache /tmp/.npm && \
+    rm -rf /tmp/.npm
 
-# Copy source code
-COPY . .
+# Copy only necessary source files (not everything)
+COPY client ./client
+COPY server ./server
+COPY shared ./shared
+COPY attached_assets ./attached_assets
+COPY vite.config.ts ./
+COPY tsconfig.json ./
+COPY tailwind.config.ts ./
+COPY postcss.config.js ./
+COPY drizzle.config.ts ./
 
 # Build the application
-# 1. Build frontend with Vite
-# 2. Build backend with esbuild
 RUN npm run build
 
 # Stage 2: Production stage
@@ -33,9 +40,10 @@ WORKDIR /app
 # Install wget for health checks
 RUN apk add --no-cache wget
 
-# Install production dependencies only
+# Install production dependencies only (with optimizations)
 COPY package*.json ./
-RUN npm ci --omit=dev --cache /tmp/empty-cache && rm -rf /tmp/empty-cache
+RUN npm ci --omit=dev --prefer-offline --no-audit --no-fund --cache /tmp/.npm && \
+    rm -rf /tmp/.npm ~/.npm
 
 # Copy built application from builder stage
 COPY --from=builder /app/dist ./dist
