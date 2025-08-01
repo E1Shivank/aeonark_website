@@ -29,8 +29,8 @@ COPY shared ./shared
 COPY attached_assets ./attached_assets
 COPY vite.config.ts tsconfig.json tailwind.config.ts postcss.config.js ./
 
-# Build
-RUN npm run build
+# Build with custom script
+RUN node build.js
 
 # Production stage
 FROM node:20-alpine AS production

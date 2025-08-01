@@ -27,9 +27,10 @@ COPY tsconfig.json ./
 COPY tailwind.config.ts ./
 COPY postcss.config.js ./
 COPY drizzle.config.ts ./
+COPY production-build.sh ./
 
-# Build the application
-RUN npm run build
+# Build the application with production build script
+RUN ./production-build.sh
 
 # Stage 2: Production stage
 FROM node:20-alpine AS production
